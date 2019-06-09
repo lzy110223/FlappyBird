@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flappy Bird</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            margin: 0 auto;
+            border: 1px solid red;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="360" height="512"></canvas>
+    <script src="js/Background.js"></script>
+    <script src="js/Bird.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/pipe.js"></script>
+    <script>
+        // 定义一个盛放所有图片的数组
+        var imgArr = ["images/bg_day.png", "images/bird0_0.png", "images/bird0_1.png", "images/bird0_2.png",
+            "images/land.png", "images/pipe_down.png", "images/pipe_up.png"
+        ]
+
+
+        onloadimg(imgArr, function (img) {
+            var canvas = document.getElementById("myCanvas");
+
+            var ctx = canvas.getContext("2d");
+
+            var bird = new Bird(img.slice(1, 4), 100, 100);
+
+            var pipe = new Pipe(img[5], img[6], 4, 360);
+
+            var land = new Background(img[4], 4, 0, 400);
+
+            var mountain = new Background(img[0], 2, 0, 0);
+
+            // 开始游戏
+            window.g = new Game(ctx, bird, pipe, land, mountain);
+        })
+
+
+ 
+        // 定义一个onload函数保证所有函数都加载完成
+        function onloadimg(imgArr, callback) {
+            // 定义信号量
+            var idx = 0;
+            // 定义数组盛放加载完成的图片
+            var loadimgArr = [];
+            imgArr.forEach(function (value, index) {
+                var img = new Image;
+                img.src = value;
+                img.onload = function () {
+                    idx++;
+
+                    loadimgArr[index] = this;
+
+
+
+                    if (idx === imgArr.length) {
+                        callback(loadimgArr)
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
