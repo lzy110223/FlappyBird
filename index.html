@@ -63,11 +63,7 @@
                 img.src = value;
                 img.onload = function () {
                     idx++;
-
                     loadimgArr[index] = this;
-
-
-
                     if (idx === imgArr.length) {
                         callback(loadimgArr)
                     }
